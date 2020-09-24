@@ -27,7 +27,7 @@ public class PlayerControls : MonoBehaviour
 
         transform.position = transform.position + new Vector3(horizontalInput * speed * Time.deltaTime, 0, 0);
 
-        Debug.Log(power);
+        //Debug.Log(power);
 
         if (IsGrounded())
         {
@@ -58,6 +58,11 @@ public class PlayerControls : MonoBehaviour
         if (collision.gameObject.tag.Equals("Enemy"))
         {
             //whatever happens here
+
+            //This allows custom damage to player for each enemy, i.e. bigger enemies can cause more damage - travis
+            EnemyBehavior enemy = collision.gameObject.GetComponent<EnemyBehavior>();
+            int ouch = enemy.damageDelt;
+            Debug.Log("Player contact with enemy - damage: " + ouch);
         }
     }
 }
