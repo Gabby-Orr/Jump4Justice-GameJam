@@ -6,59 +6,77 @@ public class PlatformGenerator : MonoBehaviour
 {
     public GameObject initPlatform;
     public List<GameObject> platformPrefabs;
+    public GameObject specialPlatform;
     private List<GameObject> instantiatedPlatforms;
     private float startX;
     private float startY;
     private float gap = 2f;
     private float scale = 5f;
-    private float freq = 4f;
+    public float xSpread = 30f;
+    private float freq;
     private static int RIGHT = 1;
     private static int LEFT = -1;
     void Awake()
     {
         startX = initPlatform.gameObject.transform.position.x;
         startY = initPlatform.gameObject.transform.position.y;
-        Debug.Log("start values: (" + startX + ", " + startY + ")");
         instantiatedPlatforms = new List<GameObject>();
+        freq = xSpread / 8f;
 
         // Generate down-right paths
-        GeneratePath(RIGHT, -0.5f, Random.value * scale);
+        GenerateSpecialPath(RIGHT, -0.5f, Random.value * scale);
         GeneratePath(RIGHT, -0.25f, Random.value * scale);
         GeneratePath(RIGHT, -0.8f, Random.value * scale);
 
         // Generate up-left paths
-        GeneratePath(LEFT, 0.5f, Random.value * scale);
-        GeneratePath(LEFT, 0.25f, Random.value * scale);
-        GeneratePath(LEFT, 0.8f, Random.value * scale);
+        GenerateSpecialPath(LEFT, -0.5f, Random.value * scale);
+        GeneratePath(LEFT, -0.25f, Random.value * scale);
+        GeneratePath(LEFT, -0.8f, Random.value * scale);
     }
 
-    void GeneratePath(int direction, float slope, float seed)
+    // generate a random path up to 'xSpread' horizontal units away from the origin
+    // in the given direction with the given average slope. the seed is used to pick
+    // the spot in the perlin noise map.
+    private Vector3 GeneratePath(int direction, float slope, float seed)
     {
+        // use this counter to avoid generating the first platform
         int loopCount = 0;
-        for (float x = startX; x < 30;)
+
+        Vector3 platformVector = new Vector3(startX, startY, 0);
+        for (float x = startX; (x < xSpread) && (x > -xSpread);)
         {
             float width;
+            // skip the first platform, and other passes have a 75% chance of generating a platform
             if (loopCount > 0 && Random.value < 0.75f)
             {
                 int ind = Random.Range(0, platformPrefabs.Count);
-                // Debug.Log("platforms = " + platformPrefabs.Count);
-                // Debug.Log("ind = " + ind);
                 width = platformPrefabs[ind].GetComponent<SpriteRenderer>().bounds.size.x;
-                // Debug.Log("width = " + width);
                 float y = Mathf.PerlinNoise(x / freq, seed);
-                float vecX = direction * (x + (width / 2.0f));
+                float vecX = x + (width / 2.0f);
                 float vecY = startY + (y * scale) + slope*x;
-                Debug.Log("vectr values: (" + vecX + ", " + vecY + ")");
-                Vector3 platformVector = new Vector3(vecX, vecY, 0);
+                platformVector = new Vector3(vecX, vecY, 0);
+
                 Quaternion rotation = Quaternion.identity;
+                // rotate the boxes by a rancom amount for variety
                 if (platformPrefabs[ind].tag.Equals("Box"))
                     rotation = Quaternion.Euler(rotation.x, rotation.y, Random.Range(0f, 89f));
+
                 instantiatedPlatforms.Add(Instantiate(platformPrefabs[ind], platformVector, rotation));
             }
             else
                 width = initPlatform.GetComponent<SpriteRenderer>().bounds.size.x;
-            x += (width + gap);
+            x += direction * (width + gap);
             loopCount++;
         }
+
+        // return the position of the final platform so we can make other things there if we want
+        return platformVector;
+    }
+
+    // generate a path and put a special platform at the end
+    private void GenerateSpecialPath(int direction, float slope, float seed)
+    {
+        Vector3 endVector = GeneratePath(direction, slope, seed);
+        instantiatedPlatforms.Add(Instantiate(specialPlatform, new Vector3(endVector.x, endVector.y - scale, endVector.z), Quaternion.identity));
     }
 }
