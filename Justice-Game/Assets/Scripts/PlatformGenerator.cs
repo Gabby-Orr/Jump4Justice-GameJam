@@ -77,6 +77,8 @@ public class PlatformGenerator : MonoBehaviour
     private void GenerateSpecialPath(int direction, float slope, float seed)
     {
         Vector3 endVector = GeneratePath(direction, slope, seed);
+        //TODO: instantiatedPlatforms.Add specialPlatformVictim on top left
+        //TODO: instantiatedPlatforms.Add specialPlatformEnemy on bottom right
         instantiatedPlatforms.Add(Instantiate(specialPlatform, new Vector3(endVector.x, endVector.y - scale, endVector.z), Quaternion.identity));
     }
 }

@@ -11,7 +11,7 @@ public class PlayerControls : MonoBehaviour
     private float power = 10;
     private float powerDecreaseRate = 3f;
 
-    [SerializeField] private float jumpVelo = 8f;
+    [SerializeField] private float jumpVelo = 10f;
 
     // Start is called before the first frame update
     void Start()
