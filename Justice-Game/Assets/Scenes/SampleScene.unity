@@ -477,6 +477,58 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1454912120 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1473998088045078261, guid: 9112872ec3cf6425b873e75b2b943487, type: 3}
+  m_PrefabInstance: {fileID: 5391512495255922499}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1494727801
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1494727803}
+  - component: {fileID: 1494727802}
+  m_Layer: 0
+  m_Name: ScriptObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1494727802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494727801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33d6c3847fee60849911f4c71ec1458c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initPlatform: {fileID: 1454912120}
+  platformPrefabs:
+  - {fileID: 1473998088045078261, guid: 9112872ec3cf6425b873e75b2b943487, type: 3}
+  - {fileID: 5945103524501921376, guid: bcc8d1bb5e7236646bf0f86e42ae3f48, type: 3}
+--- !u!4 &1494727803
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494727801}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1724621796
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -811,7 +863,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1473998088045078261, guid: 9112872ec3cf6425b873e75b2b943487, type: 3}
       propertyPath: m_Name
-      value: Platform
+      value: StartPlatform
       objectReference: {fileID: 0}
     - target: {fileID: 3371280812778080678, guid: 9112872ec3cf6425b873e75b2b943487, type: 3}
       propertyPath: m_LocalPosition.x
