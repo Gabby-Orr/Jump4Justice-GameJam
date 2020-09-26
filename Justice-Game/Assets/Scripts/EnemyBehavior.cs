@@ -10,7 +10,7 @@ public class EnemyBehavior : MonoBehaviour
     public bool projectileDamage; //Can the enemy incur damage from projectiles?
     public bool headJumpDamage;   //Can the enemy incur damage from a player jumping on its head?
     public int headJumpDamageSuffered; //How much?
-    public int damageDelt;        //How much damage does the enemy cause a player on a collision? (Accessed form PlayerControls.cs)
+    public int damageDealt;        //How much damage does the enemy cause a player on a collision? (Accessed form PlayerControls.cs)
     public int health=10;            //Health of the enemy
 
     // Start is called before the first frame update
@@ -26,7 +26,11 @@ public class EnemyBehavior : MonoBehaviour
         if (health <= 0) Destroy(this.gameObject);
     }
 
-    
+    public void HeadJump() {
+        health -= headJumpDamageSuffered;
+    }
+
+
     //for now, the enemy changes directions when it collides with something
     private void OnTriggerEnter2D(Collider2D collision) 
     {
@@ -40,9 +44,11 @@ public class EnemyBehavior : MonoBehaviour
         }
     }
 
+    /*
     private void OnCollisionEnter2D(Collision2D collision) {
         if(collision.gameObject.tag.Equals("Player")) {
             health-=headJumpDamageSuffered;
         }
     }
+    */
 }

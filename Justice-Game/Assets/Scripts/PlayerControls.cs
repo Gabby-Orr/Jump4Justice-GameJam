@@ -53,15 +53,22 @@ public class PlayerControls : MonoBehaviour
         return raycastHit2D.collider != null;
     }
 
+
+    private void OnTriggerEnter2D(Collider2D collision)  {
+        //Debug.Log("(player) Trigger Enter");
+    }
+
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        //Debug.Log("(player) Collision Enter");
         if (collision.gameObject.tag.Equals("Enemy"))
         {
             //whatever happens here
 
             //This allows custom damage to player for each enemy, i.e. bigger enemies can cause more damage - travis
             EnemyBehavior enemy = collision.gameObject.GetComponent<EnemyBehavior>();
-            int ouch = enemy.damageDelt;
+            int ouch = enemy.damageDealt;
             Debug.Log("Player contact with enemy - damage: " + ouch);
         }
     }
