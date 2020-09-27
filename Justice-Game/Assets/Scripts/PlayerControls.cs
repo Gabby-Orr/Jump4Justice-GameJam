@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class PlayerControls : MonoBehaviour
 {
@@ -17,8 +19,13 @@ public class PlayerControls : MonoBehaviour
     private int objectivesDone;
     public int objectives = 2;
     private int enemiesKilled = 0;
+    public Image[] hearts;
+
 
     [SerializeField] private float jumpVelo = 10f;
+    [SerializeField] private PowerBarScript powerBar;
+    [SerializeField] private DamageBarScript damageBar;
+
 
     // Start is called before the first frame update
     void Start()
@@ -29,19 +36,42 @@ public class PlayerControls : MonoBehaviour
         health = initHealth;
         respawnPt = transform.position;
         objectivesDone = 0;
+        powerBar.SetSize((float)(power * 0.1));
     }
 
     // Update is called once per frame
     void Update()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
+        HandleInput();
+        HandleHearts();
 
-        transform.position += new Vector3(horizontalInput * speed * Time.deltaTime, 0, 0);
+        powerBar.SetSize((float)(power * 0.1));
+        damageBar.SetSize((float)(health * 0.05));
+
+        if (objectivesDone == objectives)
+        {
+            // win screen
+            Debug.Log("congrats, you won");
+            Manager.instance.GameOver(1);
+        }
+
+        if (lives == 0)
+        {
+            // lose screen
+            Manager.instance.GameOver(0);
+        }
 
         if (health <= 0)
         {
             Death();
         }
+    }
+
+    private void HandleInput()
+    {
+        float horizontalInput = Input.GetAxis("Horizontal");
+
+        transform.position += new Vector3(horizontalInput * speed * Time.deltaTime, 0, 0);
 
         if (IsGrounded())
         {
@@ -51,34 +81,49 @@ public class PlayerControls : MonoBehaviour
         else
         {
             power -= powerDecreaseRate * Time.deltaTime;
-            jumpVelo -= powerDecreaseRate * Time.deltaTime;
+            //jumpVelo -= powerDecreaseRate * Time.deltaTime;
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && (IsGrounded() || power > 0))
         {
             rb.velocity = Vector2.up * jumpVelo;
         }
+    }
 
-        if(objectivesDone == objectives)
+    private void HandleHearts()
+    {
+        if(lives < 1)
         {
-            // win screen
-            Debug.Log("congrats, you won");
+            hearts[0].enabled = false;
+        }
+        else if(lives < 2)
+        {
+            hearts[1].enabled = false;
+        }
+        else if(lives < 3)
+        {
+            hearts[2].enabled = false;
+        }
+        else
+        {
+            hearts[0].enabled = true;
+            for (int i = 0; i < hearts.Length; i++)
+            {
+                hearts[i].enabled = true;
+            }
         }
     }
 
     private bool IsGrounded()
     {
-        
         RaycastHit2D raycastHit2D = Physics2D.CircleCast(col.bounds.center, col.radius, Vector2.down, .1f, platformMask);
         return raycastHit2D.collider != null;
     }
-
 
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.CompareTag("Victim"))
         {
-            Debug.Log("yay u saved me");
             VictimBehavior victim = col.gameObject.GetComponent<VictimBehavior>();
             victim.gameObject.SetActive(false);
             objectivesDone += 1;
@@ -108,27 +153,17 @@ public class PlayerControls : MonoBehaviour
         if(lives > 0)
         {
             //respawn
-            Debug.Log("u died & have: " + lives + " lives");
             transform.position = respawnPt;
             health = initHealth;
-        }
-        else
-        {
-            // death screen, try again?
-            Debug.Log("u died & have 0 lives");
-            gameObject.SetActive(false);
         }
     }
 
     public void KilledEnemy(bool boss)
     {
+        enemiesKilled += 1;
         if (boss)
         {
             objectives += 1;
-        }
-        else
-        {
-            enemiesKilled += 1;
         }
     }
 }
