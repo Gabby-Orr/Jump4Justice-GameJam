@@ -252,6 +252,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1494727803}
   - component: {fileID: 1494727802}
+  - component: {fileID: 1494727804}
   m_Layer: 0
   m_Name: ScriptObject
   m_TagString: Untagged
@@ -276,6 +277,9 @@ MonoBehaviour:
   - {fileID: 1473998088045078261, guid: 9112872ec3cf6425b873e75b2b943487, type: 3}
   - {fileID: 5945103524501921376, guid: bcc8d1bb5e7236646bf0f86e42ae3f48, type: 3}
   specialPlatform: {fileID: 304147865477834000, guid: 716813b04dff4f34eb5f8075e6940fec, type: 3}
+  victim: {fileID: 3971721557199623433, guid: 5b7717142033246868f48e714d809753, type: 3}
+  enemy: {fileID: 7424118303306858352, guid: c3b94e22c83f2437e837506cc2875740, type: 3}
+  boss: {fileID: 7428485658794165211, guid: 9457abd5988834bbf828cd029321d24f, type: 3}
   xSpread: 30
 --- !u!4 &1494727803
 Transform:
@@ -291,6 +295,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1494727804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494727801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac66f803ac143043bc39b78d6bf439b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1939248403
 GameObject:
   m_ObjectHideFlags: 0
