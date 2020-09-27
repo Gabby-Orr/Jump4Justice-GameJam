@@ -14,10 +14,11 @@ public class EnemyBehavior : MonoBehaviour
     public int damageDealt;        //How much damage does the enemy cause a player on a collision? (Accessed form PlayerControls.cs)
     public int health=10;            //Health of the enemy
 
+    //[SerializeField] private PlayerControls player;
+
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -26,6 +27,7 @@ public class EnemyBehavior : MonoBehaviour
         transform.position = transform.position + new Vector3(horizontalSpeed * Time.deltaTime, verticalSpeed * Time.deltaTime, 0);
         if (health <= 0)
         {
+            //player.KilledEnemy(this.boss);
             Destroy(this.gameObject);
 
         }
