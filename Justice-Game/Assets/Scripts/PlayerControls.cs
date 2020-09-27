@@ -10,6 +10,13 @@ public class PlayerControls : MonoBehaviour
     private float speed = 5f;
     private float power = 10;
     private float powerDecreaseRate = 3f;
+    private int lives;
+    public int initHealth = 20;
+    public int health;
+    public Vector3 respawnPt;
+    private int objectivesDone;
+    public int objectives = 2;
+    private int enemiesKilled = 0;
 
     [SerializeField] private float jumpVelo = 10f;
 
@@ -18,6 +25,10 @@ public class PlayerControls : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<CircleCollider2D>();
+        lives = 3;
+        health = initHealth;
+        respawnPt = transform.position;
+        objectivesDone = 0;
     }
 
     // Update is called once per frame
@@ -25,9 +36,12 @@ public class PlayerControls : MonoBehaviour
     {
         float horizontalInput = Input.GetAxis("Horizontal");
 
-        transform.position = transform.position + new Vector3(horizontalInput * speed * Time.deltaTime, 0, 0);
+        transform.position += new Vector3(horizontalInput * speed * Time.deltaTime, 0, 0);
 
-        //Debug.Log(power);
+        if (health <= 0)
+        {
+            Death();
+        }
 
         if (IsGrounded())
         {
@@ -44,6 +58,12 @@ public class PlayerControls : MonoBehaviour
         {
             rb.velocity = Vector2.up * jumpVelo;
         }
+
+        if(objectivesDone == objectives)
+        {
+            // win screen
+            Debug.Log("congrats, you won");
+        }
     }
 
     private bool IsGrounded()
@@ -54,8 +74,15 @@ public class PlayerControls : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collision)  {
-        //Debug.Log("(player) Trigger Enter");
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.CompareTag("Victim"))
+        {
+            Debug.Log("yay u saved me");
+            VictimBehavior victim = col.gameObject.GetComponent<VictimBehavior>();
+            victim.gameObject.SetActive(false);
+            objectivesDone += 1;
+        }
     }
 
 
@@ -64,12 +91,44 @@ public class PlayerControls : MonoBehaviour
         //Debug.Log("(player) Collision Enter");
         if (collision.gameObject.tag.Equals("Enemy"))
         {
-            //whatever happens here
-
             //This allows custom damage to player for each enemy, i.e. bigger enemies can cause more damage - travis
             EnemyBehavior enemy = collision.gameObject.GetComponent<EnemyBehavior>();
             int ouch = enemy.damageDealt;
+            health -= ouch;
             Debug.Log("Player contact with enemy - damage: " + ouch);
+        }
+
+    }
+
+    public void Death()
+    {
+        Debug.Log("dead");
+        // some kinda animation? like a bounce then fall? or negative gravity for 5 secs?
+        lives -= 1;
+        if(lives > 0)
+        {
+            //respawn
+            Debug.Log("u died & have: " + lives + " lives");
+            transform.position = respawnPt;
+            health = initHealth;
+        }
+        else
+        {
+            // death screen, try again?
+            Debug.Log("u died & have 0 lives");
+            gameObject.SetActive(false);
+        }
+    }
+
+    public void KilledEnemy(bool boss)
+    {
+        if (boss)
+        {
+            objectives += 1;
+        }
+        else
+        {
+            enemiesKilled += 1;
         }
     }
 }

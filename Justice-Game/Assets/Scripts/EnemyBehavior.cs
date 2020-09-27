@@ -7,6 +7,7 @@ public class EnemyBehavior : MonoBehaviour
 
     public float verticalSpeed;
     public float horizontalSpeed;
+    public bool boss;
     public bool projectileDamage; //Can the enemy incur damage from projectiles?
     public bool headJumpDamage;   //Can the enemy incur damage from a player jumping on its head?
     public int headJumpDamageSuffered; //How much?
@@ -23,7 +24,11 @@ public class EnemyBehavior : MonoBehaviour
     void Update()
     {
         transform.position = transform.position + new Vector3(horizontalSpeed * Time.deltaTime, verticalSpeed * Time.deltaTime, 0);
-        if (health <= 0) Destroy(this.gameObject);
+        if (health <= 0)
+        {
+            Destroy(this.gameObject);
+
+        }
     }
 
     public void HeadJump() {
