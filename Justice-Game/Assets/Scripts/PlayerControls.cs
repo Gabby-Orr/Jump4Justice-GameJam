@@ -16,12 +16,11 @@ public class PlayerControls : MonoBehaviour
     public int initHealth = 20;
     public int health;
     public Vector3 respawnPt;
-    private int objectivesDone;
-    public int objectives = 2;
-    private int enemiesKilled = 0;
     public Image[] hearts;
 
-
+    [SerializeField] private int enemiesKilled = 0;
+    [SerializeField] public int objectives = 2;
+    [SerializeField] private int objectivesDone = 0;
     [SerializeField] private float jumpVelo = 10f;
     [SerializeField] private PowerBarScript powerBar;
     [SerializeField] private DamageBarScript damageBar;
@@ -163,7 +162,7 @@ public class PlayerControls : MonoBehaviour
         enemiesKilled += 1;
         if (boss)
         {
-            objectives += 1;
+            objectivesDone += 1;
         }
     }
 }

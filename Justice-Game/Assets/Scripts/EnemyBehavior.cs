@@ -14,13 +14,6 @@ public class EnemyBehavior : MonoBehaviour
     public int damageDealt;        //How much damage does the enemy cause a player on a collision? (Accessed form PlayerControls.cs)
     public int health=10;            //Health of the enemy
 
-    //[SerializeField] private PlayerControls player;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -33,7 +26,8 @@ public class EnemyBehavior : MonoBehaviour
         }
     }
 
-    public void HeadJump() {
+    public void HeadJump(PlayerControls player) {
+        if (health - headJumpDamageSuffered <= 0) player.KilledEnemy(boss);
         health -= headJumpDamageSuffered;
     }
 
