@@ -13,6 +13,9 @@ public class DamageBarScript : MonoBehaviour
 
     public void SetSize(float sizeNormalized)
     {
-        bar.localScale = new Vector3(4 * sizeNormalized, 0.7f);
+        if(sizeNormalized > 0)
+        {
+            bar.localScale = new Vector3(4 * sizeNormalized, 0.7f);
+        }
     }
 }

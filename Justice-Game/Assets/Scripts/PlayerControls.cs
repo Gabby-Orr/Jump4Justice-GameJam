@@ -20,7 +20,7 @@ public class PlayerControls : MonoBehaviour
 
     [SerializeField] private int enemiesKilled = 0;
     [SerializeField] public int objectives = 2;
-    [SerializeField] private int objectivesDone = 0;
+    [SerializeField] public int objectivesDone = 0;
     [SerializeField] private float jumpVelo = 10f;
     [SerializeField] private PowerBarScript powerBar;
     [SerializeField] private DamageBarScript damageBar;
@@ -124,7 +124,9 @@ public class PlayerControls : MonoBehaviour
         if (col.gameObject.CompareTag("Victim"))
         {
             VictimBehavior victim = col.gameObject.GetComponent<VictimBehavior>();
-            victim.gameObject.SetActive(false);
+            victim.floatAway = true;
+
+            //victim.gameObject.SetActive(false);
             objectivesDone += 1;
         }
     }

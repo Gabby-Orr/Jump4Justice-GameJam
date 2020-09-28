@@ -10,10 +10,16 @@ public class PowerBarScript : MonoBehaviour
     private void Awake ()
     {
         bar = transform.Find("PBar");
+
+
     }
 
     public void SetSize(float sizeNormalized)
     {
+        if(sizeNormalized < 0)
+        {
+            sizeNormalized = 0;
+        }
         bar.localScale = new Vector3(4 * sizeNormalized, 0.7f);
     }
 }

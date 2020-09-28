@@ -32,7 +32,8 @@ public class Manager : MonoBehaviour
         {
             isGameOver = true;
             isWin = (status == WIN);
-            SceneManager.LoadScene("GameOverScene", LoadSceneMode.Additive);
+            SceneManager.UnloadSceneAsync("SampleScene");
+            SceneManager.LoadScene("GameOverScene");
         }
     }
     public void RestartGame()
@@ -40,5 +41,6 @@ public class Manager : MonoBehaviour
         // do other things to reset the game
         isGameOver = false;
         SceneManager.UnloadSceneAsync("GameOverScene");
+        SceneManager.LoadScene("SampleScene");
     }
 }

@@ -405,6 +405,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   verticalSpeed: 0
   horizontalSpeed: 0
+  boss: 1
   projectileDamage: 0
   headJumpDamage: 1
   headJumpDamageSuffered: 2
